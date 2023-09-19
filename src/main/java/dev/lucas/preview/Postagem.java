@@ -48,6 +48,8 @@ public sealed abstract class Postagem implements Comparable<Postagem> permits El
         System.out.println("Curtida adicionada com sucesso!");
     }
 
+    public abstract int compareTo(Postagem o);
+
     @Override
     public String toString() {
         return "Postagem{" +
