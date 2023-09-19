@@ -1,2 +1,4 @@
-package dev.lucas.preview;public class Curtidas {
+package dev.lucas.preview;
+
+public class Curtidas {
 }

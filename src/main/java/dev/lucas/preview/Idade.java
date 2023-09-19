@@ -1,2 +1,5 @@
-package dev.lucas.preview;public interface Idade {
+package dev.lucas.preview;
+
+public interface Idade {
+    int getIdade();
 }
