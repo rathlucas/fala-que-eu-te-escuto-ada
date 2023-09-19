@@ -5,9 +5,10 @@ public class App {
 
         Timeline timeline = new Timeline();
         Cliente cliente = new Cliente();
+        Empresa empresa = new Empresa();
 
         timeline.adicionarPostagem(cliente.criarElogio("Otimo atendimento!",
-                "Foram muito atenciosos"));
+                "Foram muito atenciosos", empresa));
         System.out.println(cliente.getPostagens());
         System.out.println(timeline);
 
@@ -17,7 +18,7 @@ public class App {
         System.out.println(timeline);
 
         timeline.adicionarPostagem(cliente.criarReclamacao("Pessimo!",
-                "Odiei o serviço"));
+                "Odiei o serviço", empresa));
         System.out.println(cliente.getPostagens());
         System.out.println(timeline);
 
