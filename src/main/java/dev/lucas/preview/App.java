@@ -3,9 +3,11 @@ package dev.lucas.preview;
 import java.time.LocalDate;
 
 public class App {
+
+    private static final Timeline timeline = new Timeline();
+
     public static void main(String[] args) {
 
-        Timeline timeline = new Timeline();
         Cliente cliente = new Cliente("Lucas",
                 "lucin189@gmail.com", LocalDate.of(2000, 8, 29));
         Empresa empresa = new Empresa();
