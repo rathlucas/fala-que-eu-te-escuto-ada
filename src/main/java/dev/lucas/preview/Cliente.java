@@ -79,7 +79,7 @@ public final class Cliente extends Usuario implements Idade {
 
     public Postagem removerPostagem() {
         Postagem removida = postagens.pop();
-        System.out.printf("Postagem %s removida com sucesso!%n", removida);
+        System.out.printf("%s removida com sucesso!%n", removida);
         return removida;
     }
 
