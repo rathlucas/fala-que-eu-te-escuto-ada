@@ -1,5 +1,6 @@
 package dev.lucas.preview;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,13 +20,23 @@ public class Timeline {
     }
 
     public void adicionarPostagem(Postagem postagem) {
-        postagens.addFirst(postagem);
+        postagens.add(postagem);
         System.out.println("Postagem adicionada a Timeline!");
     }
 
     public void removerPostagem(Postagem postagem) {
-        postagens.remove(postagem);
-        System.out.println("Postagem removida da Timeline!");
+        boolean resultado = postagens.remove(postagem);
+        if (resultado) {
+            System.out.println("Postagem removida da Timeline!");
+        } else {
+            System.err.println("Postagem não encontrada para remoção!");
+        }
+    }
+
+    public List<Postagem> getPostagensMaisCurtidas() {
+        List<Postagem> postagensMaisCurtidas = new LinkedList<>(postagens);
+        Collections.sort(postagensMaisCurtidas);
+        return postagensMaisCurtidas;
     }
 
     @Override
