@@ -9,7 +9,7 @@ public sealed abstract class Postagem implements Comparable<Postagem> permits El
     private String titulo;
     private String mensagem;
     private Empresa empresa;
-    private Date criadoEm;
+    private final Date criadoEm;
     private final List<Curtida> curtidas = new ArrayList<>();
 
     public Postagem() {
