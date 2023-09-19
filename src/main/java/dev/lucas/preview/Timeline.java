@@ -1,5 +1,6 @@
 package dev.lucas.preview;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +31,12 @@ public class Timeline {
         } else {
             System.err.println("Postagem não encontrada para remoção!");
         }
+    }
+
+    public List<Postagem> getPostagensMaisCurtidas() {
+        List<Postagem> postagensMaisCurtidas = new LinkedList<>(postagens);
+        Collections.sort(postagensMaisCurtidas);
+        return postagensMaisCurtidas;
     }
 
     @Override
