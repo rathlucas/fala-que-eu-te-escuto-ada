@@ -1,2 +1,4 @@
-package dev.lucas.preview;public class Postagem {
+package dev.lucas.preview;
+
+public sealed abstract class Postagem permits Elogio, Reclamacao {
 }
