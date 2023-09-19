@@ -1,4 +1,4 @@
-package dev.lucas;
+package dev.lucas.reviews;
 
 public class Main {
     public static void main(String[] args) {

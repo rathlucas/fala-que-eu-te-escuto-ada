@@ -1,4 +1,4 @@
-package dev.lucas;
+package dev.lucas.reviews;
 
 import java.time.LocalDate;
 import java.time.Period;
