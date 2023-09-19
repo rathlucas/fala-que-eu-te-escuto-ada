@@ -1,2 +1,5 @@
-package dev.lucas.preview;public class Elogio {
+package dev.lucas.preview;
+
+public final class Elogio extends Postagem {
+
 }

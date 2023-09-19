@@ -1,2 +1,4 @@
-package dev.lucas.preview;public class Reclamacao {
+package dev.lucas.preview;
+
+public final class Reclamacao extends Postagem {
 }
