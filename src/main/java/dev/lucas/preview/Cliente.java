@@ -2,6 +2,7 @@ package dev.lucas.preview;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Stack;
 import java.util.UUID;
 
 public final class Cliente extends Usuario implements Idade {
@@ -10,6 +11,7 @@ public final class Cliente extends Usuario implements Idade {
     private String nome;
     private String email;
     private LocalDate dataNascimento;
+    private final Stack<Postagem> postagens = new Stack<>();
 
     @Override
     public int getIdade() {
@@ -30,7 +32,6 @@ public final class Cliente extends Usuario implements Idade {
         this.email = email;
         this.dataNascimento = dataNascimento;
     }
-
 
     public UUID getUuid() {
         return uuid;
@@ -58,6 +59,28 @@ public final class Cliente extends Usuario implements Idade {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public Stack<Postagem> getPostagens() {
+        return postagens;
+    }
+
+    public Elogio criarElogio(String titulo, String mensagem) {
+        Elogio elogio = new Elogio(titulo, mensagem);
+        postagens.push(elogio);
+        return elogio;
+    }
+
+    public Reclamacao criarReclamacao(String titulo, String mensagem) {
+        Reclamacao reclamacao = new Reclamacao(titulo, mensagem);
+        postagens.push(reclamacao);
+        return reclamacao;
+    }
+
+    public Postagem removerPostagem() {
+        Postagem removida = postagens.pop();
+        System.out.printf("Postagem %s removida com sucesso!%n", removida);
+        return removida;
     }
 
     @Override
