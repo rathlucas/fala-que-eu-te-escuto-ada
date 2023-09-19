@@ -19,13 +19,17 @@ public class Timeline {
     }
 
     public void adicionarPostagem(Postagem postagem) {
-        postagens.addFirst(postagem);
+        postagens.add(postagem);
         System.out.println("Postagem adicionada a Timeline!");
     }
 
     public void removerPostagem(Postagem postagem) {
-        postagens.remove(postagem);
-        System.out.println("Postagem removida da Timeline!");
+        boolean resultado = postagens.remove(postagem);
+        if (resultado) {
+            System.out.println("Postagem removida da Timeline!");
+        } else {
+            System.err.println("Postagem não encontrada para remoção!");
+        }
     }
 
     @Override
