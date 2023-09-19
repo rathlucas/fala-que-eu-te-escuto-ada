@@ -4,7 +4,7 @@ public final class Reclamacao extends Postagem {
 
     public Reclamacao() {}
 
-    public Reclamacao(String titulo, String mensagem) {
-        super(titulo, mensagem);
+    public Reclamacao(String titulo, String mensagem, Empresa empresa) {
+        super(titulo, mensagem, empresa);
     }
 }

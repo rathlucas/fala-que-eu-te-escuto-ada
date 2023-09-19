@@ -4,7 +4,7 @@ public final class Elogio extends Postagem {
 
     public Elogio() {}
 
-    public Elogio(String titulo, String mensagem) {
-        super(titulo, mensagem);
+    public Elogio(String titulo, String mensagem, Empresa empresa) {
+        super(titulo, mensagem, empresa);
     }
 }
