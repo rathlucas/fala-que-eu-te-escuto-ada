@@ -1,7 +1,4 @@
-package dev.lucas.preview.model;
-
-import dev.lucas.preview.model.Cliente;
-import dev.lucas.preview.model.Empresa;
+package dev.lucas.preview.model.cadastro;
 
 public sealed abstract class Usuario permits Empresa, Cliente {
 

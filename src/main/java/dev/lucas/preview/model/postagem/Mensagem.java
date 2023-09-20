@@ -1,4 +1,4 @@
-package dev.lucas.preview.model;
+package dev.lucas.preview.model.postagem;
 
 public class Mensagem {
 }

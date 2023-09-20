@@ -1,4 +1,8 @@
-package dev.lucas.preview.model;
+package dev.lucas.preview.model.cadastro;
+
+import dev.lucas.preview.model.postagem.Elogio;
+import dev.lucas.preview.model.postagem.Postagem;
+import dev.lucas.preview.model.postagem.Reclamacao;
 
 import java.time.LocalDate;
 import java.time.Period;
