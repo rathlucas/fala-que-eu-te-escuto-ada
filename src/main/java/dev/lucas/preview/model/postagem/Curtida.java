@@ -1,4 +1,4 @@
-package dev.lucas.preview;
+package dev.lucas.preview.model;
 
 import java.util.Date;
 

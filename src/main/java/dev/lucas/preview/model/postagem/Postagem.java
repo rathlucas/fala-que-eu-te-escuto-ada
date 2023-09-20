@@ -1,10 +1,12 @@
-package dev.lucas.preview;
+package dev.lucas.preview.model;
+
+import dev.lucas.preview.model.cadastro.Empresa;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public sealed abstract class Postagem implements Comparable<Postagem> permits Elogio, Reclamacao  {
+public sealed abstract class Postagem implements Comparable<Postagem> permits Elogio, Reclamacao {
 
     private String titulo;
     private String mensagem;

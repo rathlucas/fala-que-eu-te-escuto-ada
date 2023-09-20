@@ -1,4 +1,6 @@
-package dev.lucas.preview;
+package dev.lucas.preview.model;
+
+import dev.lucas.preview.model.cadastro.Empresa;
 
 public final class Reclamacao extends Postagem implements Comparable<Postagem> {
 
