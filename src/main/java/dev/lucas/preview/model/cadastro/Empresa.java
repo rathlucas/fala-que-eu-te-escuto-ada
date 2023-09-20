@@ -3,8 +3,11 @@ package dev.lucas.preview.model.cadastro;
 import dev.lucas.preview.model.postagem.Postagem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,12 @@ public final class Empresa extends Usuario {
 
     @OneToMany
     private final List<Postagem> postagens = new ArrayList<>();
+
+    @CreationTimestamp
+    private Instant criadoEm;
+
+    @UpdateTimestamp
+    private Instant atualizadoEm;
 
     public Empresa(){
     }
@@ -52,5 +61,13 @@ public final class Empresa extends Usuario {
 
     public List<Postagem> getPostagens() {
         return postagens;
+    }
+
+    public Instant getCriadoEm() {
+        return criadoEm;
+    }
+
+    public Instant getAtualizadoEm() {
+        return atualizadoEm;
     }
 }

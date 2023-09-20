@@ -82,6 +82,7 @@ public class PostagemController {
             );
             return new ResponseEntity<>(_postagem, HttpStatus.CREATED);
         } catch(Exception e) {
+            System.err.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

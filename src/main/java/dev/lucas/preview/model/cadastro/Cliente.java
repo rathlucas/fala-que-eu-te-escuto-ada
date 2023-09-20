@@ -8,8 +8,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -39,6 +42,12 @@ public final class Cliente extends Usuario implements Idade {
 
     @OneToMany
     private List<Postagem> postagens;
+
+    @CreationTimestamp
+    private Instant criadoEm;
+
+    @UpdateTimestamp
+    private Instant atualizadoEm;
 
     @Override
     public int getIdade() {
@@ -86,6 +95,13 @@ public final class Cliente extends Usuario implements Idade {
         this.postagens = postagens;
     }
 
+    public Instant getCriadoEm() {
+        return criadoEm;
+    }
+
+    public Instant getAtualizadoEm() {
+        return atualizadoEm;
+    }
 
     public Elogio criarElogio(String titulo, String mensagem, Cliente cliente, Empresa empresa) {
         Elogio elogio = new Elogio(titulo, mensagem, cliente, empresa);

@@ -3,12 +3,15 @@ package dev.lucas.preview.model.postagem;
 import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.model.cadastro.Empresa;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Postagem implements Comparable<Postagem> {
 
     @Id
@@ -27,14 +30,16 @@ public abstract class Postagem implements Comparable<Postagem> {
     @ManyToOne
     private Cliente cliente;
 
-    @Column(nullable = false)
-    private final Date criadoEm;
-
     @OneToMany
     private final List<Curtida> curtidas = new ArrayList<>();
 
+    @CreationTimestamp
+    private Instant criadoEm;
+
+    @UpdateTimestamp
+    private Instant atualizadoEm;
+
     public Postagem() {
-        this.criadoEm = new Date();
     }
 
     public Postagem(String titulo, String mensagem, Cliente cliente, Empresa empresa) {
@@ -42,7 +47,6 @@ public abstract class Postagem implements Comparable<Postagem> {
         this.mensagem = mensagem;
         this.empresa = empresa;
         this.cliente = cliente;
-        this.criadoEm = new Date();
     }
 
     public String getTitulo() {
@@ -61,8 +65,12 @@ public abstract class Postagem implements Comparable<Postagem> {
         return cliente;
     }
 
-    public Date getCriadoEm() {
+    public Instant getCriadoEm() {
         return criadoEm;
+    }
+
+    public Instant getAtualizadoEm() {
+        return atualizadoEm;
     }
 
     public List<Curtida> getCurtidas() {

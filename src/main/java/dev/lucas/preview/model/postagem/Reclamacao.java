@@ -2,7 +2,9 @@ package dev.lucas.preview.model.postagem;
 
 import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.model.cadastro.Empresa;
+import jakarta.persistence.Entity;
 
+@Entity
 public class Reclamacao extends Postagem implements Comparable<Postagem> {
 
     public Reclamacao() {}
