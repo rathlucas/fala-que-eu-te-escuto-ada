@@ -1,6 +1,12 @@
 package dev.lucas.preview;
 
+import dev.lucas.preview.model.cadastro.Cliente;
+import dev.lucas.preview.model.postagem.Curtida;
+import dev.lucas.preview.model.cadastro.Empresa;
+import dev.lucas.preview.model.postagem.Timeline;
+
 import java.time.LocalDate;
+import java.time.Month;
 
 public class App {
 
@@ -9,7 +15,7 @@ public class App {
     public static void main(String[] args) {
 
         Cliente cliente = new Cliente("Lucas",
-                "lucin189@gmail.com", LocalDate.of(2000, 8, 29));
+                "lucin189@gmail.com", LocalDate.of(2000, Month.AUGUST, 29));
         Empresa empresa = new Empresa();
 
         timeline.adicionarPostagem(cliente.criarElogio("Otimo atendimento!",
