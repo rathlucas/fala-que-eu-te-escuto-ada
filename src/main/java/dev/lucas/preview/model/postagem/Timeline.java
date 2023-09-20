@@ -1,7 +1,5 @@
 package dev.lucas.preview.model.postagem;
 
-import dev.lucas.preview.model.postagem.Postagem;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
