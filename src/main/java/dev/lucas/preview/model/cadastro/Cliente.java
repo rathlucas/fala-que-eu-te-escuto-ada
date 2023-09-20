@@ -4,29 +4,41 @@ import dev.lucas.preview.model.postagem.Elogio;
 import dev.lucas.preview.model.postagem.Postagem;
 import dev.lucas.preview.model.postagem.Reclamacao;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Stack;
+import java.util.List;
 
 @Entity
+@Component
 public final class Cliente extends Usuario implements Idade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotNull(message = "O campo nome não pode ser nulo!")
+    @Size(min = 3, max = 40, message = "O nome precisa estar entre 3 e 40 caracteres!")
     @Column(nullable = false)
     private String nome;
 
+    @NotNull(message = "O campo email não pode ser nulo!")
     @Column(nullable = false)
+    @Email(message = "Email inválido inserido!")
     private String email;
 
+    @NotNull(message = "O campo dataNascimento não pode ser nulo!")
+    @Past
     @Column(nullable = false)
     private LocalDate dataNascimento;
 
     @OneToMany
-    private final Stack<Postagem> postagens = new Stack<>();
+    private List<Postagem> postagens;
 
     @Override
     public int getIdade() {
@@ -66,24 +78,29 @@ public final class Cliente extends Usuario implements Idade {
         this.dataNascimento = dataNascimento;
     }
 
-    public Stack<Postagem> getPostagens() {
+    public List<Postagem> getPostagens() {
         return postagens;
     }
 
+    public void setPostagens(List<Postagem> postagens) {
+        this.postagens = postagens;
+    }
+
+
     public Elogio criarElogio(String titulo, String mensagem, Empresa empresa) {
         Elogio elogio = new Elogio(titulo, mensagem, empresa);
-        postagens.push(elogio);
+        postagens.add(elogio);
         return elogio;
     }
 
     public Reclamacao criarReclamacao(String titulo, String mensagem, Empresa empresa) {
         Reclamacao reclamacao = new Reclamacao(titulo, mensagem, empresa);
-        postagens.push(reclamacao);
+        postagens.add(reclamacao);
         return reclamacao;
     }
 
     public Postagem removerPostagem() {
-        Postagem removida = postagens.pop();
+        Postagem removida = postagens.remove(postagens.size() - 1);
         System.out.printf("%s removida com sucesso!%n", removida);
         return removida;
     }
