@@ -60,7 +60,7 @@ public class ClienteController {
 
     @PutMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<Cliente> recuperarPorId(@PathVariable("id") int id, @RequestBody  Cliente cliente) {
+    public ResponseEntity<Cliente> atualizarPorId(@PathVariable("id") int id, @RequestBody  Cliente cliente) {
         try {
             Optional<Cliente> usuario = clienteRepository.findById(id);
             if (usuario.isPresent()) {
