@@ -2,7 +2,7 @@ package dev.lucas.preview.model.postagem;
 
 import dev.lucas.preview.model.cadastro.Empresa;
 
-public final class Elogio extends Postagem implements Comparable<Postagem>{
+public class Elogio extends Postagem implements Comparable<Postagem>{
 
     public Elogio() {}
 

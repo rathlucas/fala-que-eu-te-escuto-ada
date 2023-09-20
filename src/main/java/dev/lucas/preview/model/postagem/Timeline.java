@@ -1,10 +1,16 @@
 package dev.lucas.preview.model.postagem;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+@Table
 public class Timeline {
+
+    @Column
     private final LinkedList<Postagem> postagens;
 
     public Timeline() {

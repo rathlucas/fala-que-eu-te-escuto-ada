@@ -1,19 +1,29 @@
 package dev.lucas.preview.model.postagem;
 
-import java.util.Date;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
+@Entity
 public class Curtida {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(nullable = true)
     private String comentario;
-    private final Date criadoEm;
+
+    @Column(nullable = false)
+    private final LocalDateTime criadoEm;
 
     public Curtida() {
-        this.criadoEm = new Date();
+        this.criadoEm = LocalDateTime.now();
     }
 
     public Curtida(String comentario) {
         this.comentario = comentario;
-        this.criadoEm = new Date();
+        this.criadoEm = LocalDateTime.now();
     }
 
     @Override

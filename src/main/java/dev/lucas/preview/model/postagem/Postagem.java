@@ -1,17 +1,32 @@
 package dev.lucas.preview.model.postagem;
 
 import dev.lucas.preview.model.cadastro.Empresa;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public sealed abstract class Postagem implements Comparable<Postagem> permits Elogio, Reclamacao {
+@Entity
+public abstract class Postagem implements Comparable<Postagem> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(nullable = false)
     private String titulo;
+
+    @Column(nullable = false)
     private String mensagem;
+
+    @ManyToOne
     private Empresa empresa;
+
+    @Column(nullable = false)
     private final Date criadoEm;
+
+    @OneToMany
     private final List<Curtida> curtidas = new ArrayList<>();
 
     public Postagem() {

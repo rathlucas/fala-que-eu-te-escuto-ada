@@ -3,18 +3,29 @@ package dev.lucas.preview.model.cadastro;
 import dev.lucas.preview.model.postagem.Elogio;
 import dev.lucas.preview.model.postagem.Postagem;
 import dev.lucas.preview.model.postagem.Reclamacao;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Stack;
-import java.util.UUID;
 
+@Entity
 public final class Cliente extends Usuario implements Idade {
 
-    private final UUID uuid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private LocalDate dataNascimento;
+
+    @OneToMany
     private final Stack<Postagem> postagens = new Stack<>();
 
     @Override
@@ -22,23 +33,13 @@ public final class Cliente extends Usuario implements Idade {
         return Period.between(this.dataNascimento, LocalDate.now()).getYears();
     }
 
-    private UUID gerarUuid(){
-        return UUID.randomUUID();
-    }
-
     public Cliente(){
-        this.uuid = gerarUuid();
     }
 
     public Cliente(String nome, String email, LocalDate dataNascimento){
-        this.uuid = gerarUuid();
         this.nome = nome;
         this.email = email;
         this.dataNascimento = dataNascimento;
-    }
-
-    public UUID getUuid() {
-        return uuid;
     }
 
     public String getNome() {
@@ -90,8 +91,7 @@ public final class Cliente extends Usuario implements Idade {
     @Override
     public String toString() {
         return "Cliente{" +
-                "uuid=" + uuid +
-                ", nome='" + nome + '\'' +
+                "nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
                 ", dataNascimento=" + dataNascimento +
                 '}';
