@@ -1,13 +1,14 @@
 package dev.lucas.preview.model.postagem;
 
+import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.model.cadastro.Empresa;
 
 public class Reclamacao extends Postagem implements Comparable<Postagem> {
 
     public Reclamacao() {}
 
-    public Reclamacao(String titulo, String mensagem, Empresa empresa) {
-        super(titulo, mensagem, empresa);
+    public Reclamacao(String titulo, String mensagem, Cliente cliente, Empresa empresa) {
+        super(titulo, mensagem, cliente, empresa);
     }
 
     @Override

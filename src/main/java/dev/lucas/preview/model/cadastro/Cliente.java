@@ -87,14 +87,14 @@ public final class Cliente extends Usuario implements Idade {
     }
 
 
-    public Elogio criarElogio(String titulo, String mensagem, Empresa empresa) {
-        Elogio elogio = new Elogio(titulo, mensagem, empresa);
+    public Elogio criarElogio(String titulo, String mensagem, Cliente cliente, Empresa empresa) {
+        Elogio elogio = new Elogio(titulo, mensagem, cliente, empresa);
         postagens.add(elogio);
         return elogio;
     }
 
-    public Reclamacao criarReclamacao(String titulo, String mensagem, Empresa empresa) {
-        Reclamacao reclamacao = new Reclamacao(titulo, mensagem, empresa);
+    public Reclamacao criarReclamacao(String titulo, String mensagem, Cliente cliente, Empresa empresa) {
+        Reclamacao reclamacao = new Reclamacao(titulo, mensagem, cliente, empresa);
         postagens.add(reclamacao);
         return reclamacao;
     }

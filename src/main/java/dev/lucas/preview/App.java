@@ -19,7 +19,7 @@ public class App {
         Empresa empresa = new Empresa();
 
         timeline.adicionarPostagem(cliente.criarElogio("Otimo atendimento!",
-                "Foram muito atenciosos", empresa));
+                "Foram muito atenciosos", cliente, empresa));
         System.out.println(cliente.getPostagens());
         System.out.println(timeline);
 
@@ -29,7 +29,7 @@ public class App {
         System.out.println(timeline);
 
         timeline.adicionarPostagem(cliente.criarReclamacao("Pessimo!",
-                "Odiei o serviço", empresa));
+                "Odiei o serviço", cliente, empresa));
         System.out.println(cliente.getPostagens());
         System.out.println(timeline);
 
@@ -38,13 +38,13 @@ public class App {
         }
 
         var elogio1 = cliente.criarElogio("Gostei!",
-                "Foram muito atenciosos", empresa);
+                "Foram muito atenciosos", cliente, empresa);
         elogio1.curtir(new Curtida());
 
         timeline.adicionarPostagem(elogio1);
 
         var elogio2 = cliente.criarElogio("Daora o atendimento!",
-                "Foram muito bacanas", empresa);
+                "Foram muito bacanas", cliente, empresa);
         elogio2.curtir(new Curtida("Top!"));
         elogio2.curtir(new Curtida());
         elogio2.curtir(new Curtida());
@@ -52,7 +52,7 @@ public class App {
         timeline.adicionarPostagem(elogio2);
 
         var elogio3 = cliente.criarElogio("Otimo atendimento!",
-                "Foram muito atenciosos", empresa);
+                "Foram muito atenciosos", cliente, empresa);
 
         timeline.adicionarPostagem(elogio3);
 

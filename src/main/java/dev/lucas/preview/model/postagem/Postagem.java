@@ -37,10 +37,11 @@ public abstract class Postagem implements Comparable<Postagem> {
         this.criadoEm = new Date();
     }
 
-    public Postagem(String titulo, String mensagem, Empresa empresa) {
+    public Postagem(String titulo, String mensagem, Cliente cliente, Empresa empresa) {
         this.titulo = titulo;
         this.mensagem = mensagem;
         this.empresa = empresa;
+        this.cliente = cliente;
         this.criadoEm = new Date();
     }
 
@@ -56,12 +57,24 @@ public abstract class Postagem implements Comparable<Postagem> {
         return empresa;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
     public Date getCriadoEm() {
         return criadoEm;
     }
 
     public List<Curtida> getCurtidas() {
         return curtidas;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 
     public void curtir(Curtida curtida) {

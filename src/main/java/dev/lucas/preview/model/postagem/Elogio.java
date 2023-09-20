@@ -1,13 +1,14 @@
 package dev.lucas.preview.model.postagem;
 
+import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.model.cadastro.Empresa;
 
 public class Elogio extends Postagem implements Comparable<Postagem>{
 
     public Elogio() {}
 
-    public Elogio(String titulo, String mensagem, Empresa empresa) {
-        super(titulo, mensagem, empresa);
+    public Elogio(String titulo, String mensagem, Cliente cliente, Empresa empresa) {
+        super(titulo, mensagem, cliente, empresa);
     }
 
     @Override
