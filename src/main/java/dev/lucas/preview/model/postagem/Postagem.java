@@ -1,5 +1,6 @@
 package dev.lucas.preview.model.postagem;
 
+import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.model.cadastro.Empresa;
 import jakarta.persistence.*;
 
@@ -22,6 +23,9 @@ public abstract class Postagem implements Comparable<Postagem> {
 
     @ManyToOne
     private Empresa empresa;
+
+    @ManyToOne
+    private Cliente cliente;
 
     @Column(nullable = false)
     private final Date criadoEm;
