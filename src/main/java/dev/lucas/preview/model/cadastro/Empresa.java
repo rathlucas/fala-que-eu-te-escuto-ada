@@ -2,11 +2,13 @@ package dev.lucas.preview.model.cadastro;
 
 import dev.lucas.preview.model.postagem.Postagem;
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Component
 public final class Empresa extends Usuario {
 
     @Id
