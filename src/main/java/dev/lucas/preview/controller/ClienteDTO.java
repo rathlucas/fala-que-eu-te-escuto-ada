@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.TimeZone;
 
-public class UsuarioDTO {
+public class ClienteDTO {
 
     private static final SimpleDateFormat formatadorDeData
             = new SimpleDateFormat("yyyy-MM-dd HH:mm");
