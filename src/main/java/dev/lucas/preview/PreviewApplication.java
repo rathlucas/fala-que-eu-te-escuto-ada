@@ -1,4 +1,4 @@
-package main.java.dev.lucas.preview;
+package dev.lucas.preview;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
