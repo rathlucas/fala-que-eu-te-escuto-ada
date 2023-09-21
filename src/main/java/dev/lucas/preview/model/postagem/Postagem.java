@@ -51,7 +51,10 @@ public abstract class Postagem implements Comparable<Postagem> {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Cliente cliente;
 
-    @OneToMany
+    @JsonIdentityInfo(generator =
+            ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @OneToMany(mappedBy = "postagem")
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private final List<Curtida> curtidas = new ArrayList<>();
 
@@ -105,6 +108,11 @@ public abstract class Postagem implements Comparable<Postagem> {
         return curtidas;
     }
 
+    public void setCurtidas(Curtida curtida) {
+        curtidas.add(curtida);
+        System.out.println("Curtida adicionada com sucesso!");
+    }
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
@@ -113,10 +121,6 @@ public abstract class Postagem implements Comparable<Postagem> {
         this.mensagem = mensagem;
     }
 
-    public void curtir(Curtida curtida) {
-        curtidas.add(curtida);
-        System.out.println("Curtida adicionada com sucesso!");
-    }
 
     public abstract int compareTo(Postagem o);
 

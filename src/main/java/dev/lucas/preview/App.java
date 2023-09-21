@@ -39,15 +39,15 @@ public class App {
 
         var elogio1 = cliente.criarElogio("Gostei!",
                 "Foram muito atenciosos", cliente, empresa);
-        elogio1.curtir(new Curtida());
+        elogio1.setCurtidas(new Curtida());
 
         timeline.adicionarPostagem(elogio1);
 
         var elogio2 = cliente.criarElogio("Daora o atendimento!",
                 "Foram muito bacanas", cliente, empresa);
-        elogio2.curtir(new Curtida("Top!"));
-        elogio2.curtir(new Curtida());
-        elogio2.curtir(new Curtida());
+        elogio2.setCurtidas(new Curtida(elogio2, "Top!"));
+        elogio2.setCurtidas(new Curtida());
+        elogio2.setCurtidas(new Curtida());
 
         timeline.adicionarPostagem(elogio2);
 

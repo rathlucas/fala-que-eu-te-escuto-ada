@@ -34,7 +34,6 @@ public class EmpresaController {
             }
 
             List<EmpresaDTO> empresasDTO = new ArrayList<>();
-
             for (var empresa : empresas) {
                 EmpresaDTO empresaDTO = modelMapper.map(empresa, EmpresaDTO.class);
                 empresasDTO.add(empresaDTO);

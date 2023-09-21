@@ -54,6 +54,7 @@ public final class Cliente extends Usuario implements Idade {
     private Instant atualizadoEm;
 
     @Override
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     public int getIdade() {
         return Period.between(this.dataNascimento, LocalDate.now()).getYears();
     }
