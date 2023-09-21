@@ -3,6 +3,7 @@ package dev.lucas.preview.controller;
 import dev.lucas.preview.model.cadastro.Empresa;
 import dev.lucas.preview.repository.EmpresaRepository;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +17,27 @@ import java.util.Optional;
 @RequestMapping("/api/v1/empresas")
 public class EmpresaController {
 
+    private static ModelMapper modelMapper = new ModelMapper();
+
     @Autowired
     EmpresaRepository empresaRepository;
 
     @GetMapping
-    public ResponseEntity<List<Empresa>> recuperarEmpresas() {
+    public ResponseEntity<List<EmpresaDTO>> recuperarEmpresas() {
         try {
             List<Empresa> empresas = new ArrayList<>(empresaRepository.findAll());
             if (empresas.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(empresas, HttpStatus.OK);
+            List<EmpresaDTO> empresasDTO = new ArrayList<>();
+
+            for (var empresa : empresas) {
+                EmpresaDTO empresaDTO = modelMapper.map(empresa, EmpresaDTO.class);
+                empresasDTO.add(empresaDTO);
+            }
+
+            return new ResponseEntity<>(empresasDTO, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -35,10 +45,12 @@ public class EmpresaController {
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<Empresa> recuperarEmpresaPorId(@PathVariable("id") int id) {
+    public ResponseEntity<EmpresaDTO> recuperarEmpresaPorId(@PathVariable("id") int id) {
         try {
             Optional<Empresa> empresa = empresaRepository.findById(id);
-            return empresa.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+            return empresa
+                    .map(value -> new ResponseEntity<>(modelMapper.map(value, EmpresaDTO.class),
+                            HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,29 +59,35 @@ public class EmpresaController {
 
     @PostMapping(value = "/cadastro")
     @ResponseBody
-    public ResponseEntity<Empresa> cadastrarEmpresa(@Valid @RequestBody Empresa empresa) {
+    public ResponseEntity<EmpresaDTO> cadastrarEmpresa(@Valid @RequestBody Empresa empresa) {
         try {
             Empresa _empresa = empresaRepository.save(new Empresa(
                     empresa.getCnpj(),
                     empresa.getNomeFantasia()));
-            return new ResponseEntity<>(_empresa, HttpStatus.CREATED);
+
+            EmpresaDTO empresaDTO = modelMapper.map(_empresa, EmpresaDTO.class);
+
+            return new ResponseEntity<>(empresaDTO, HttpStatus.CREATED);
         } catch(Exception e) {
-            System.err.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<Empresa> atualizarPorId(@PathVariable("id") int id, @RequestBody  Empresa empresa) {
+    public ResponseEntity<EmpresaDTO> atualizarPorId(@PathVariable("id") int id,
+                                                  @RequestBody  Empresa empresa) {
         try {
             Optional<Empresa> usuario = empresaRepository.findById(id);
             if (usuario.isPresent()) {
                 Empresa _empresa = usuario.get();
                 _empresa.setCnpj(empresa.getCnpj());
                 _empresa.setNomeFantasia(empresa.getNomeFantasia());
+                empresaRepository.save(_empresa);
 
-                return new ResponseEntity<>(empresaRepository.save(_empresa), HttpStatus.OK);
+                EmpresaDTO empresaDTO = modelMapper.map(_empresa, EmpresaDTO.class);
+
+                return new ResponseEntity<>(empresaDTO, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
