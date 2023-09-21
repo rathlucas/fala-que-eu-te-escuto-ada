@@ -15,13 +15,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public final class Cliente extends Usuario implements Idade {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @NotNull(message = "O campo nome não pode ser nulo!")
     @Size(min = 3, max = 40, message = "O nome precisa estar entre 3 e 40 caracteres!")
@@ -61,7 +62,7 @@ public final class Cliente extends Usuario implements Idade {
         this.dataNascimento = dataNascimento;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 

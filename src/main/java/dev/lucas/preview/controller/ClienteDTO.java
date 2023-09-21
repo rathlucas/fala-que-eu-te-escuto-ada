@@ -1,10 +1,11 @@
 package dev.lucas.preview.controller;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class ClienteDTO {
 
-    private long id;
+    private UUID id;
     private String nome;
     private String email;
     private LocalDate dataNascimento;
@@ -13,11 +14,11 @@ public class ClienteDTO {
     public ClienteDTO() {
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
