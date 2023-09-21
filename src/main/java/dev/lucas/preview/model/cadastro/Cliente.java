@@ -3,6 +3,7 @@ package dev.lucas.preview.model.cadastro;
 import dev.lucas.preview.model.postagem.Elogio;
 import dev.lucas.preview.model.postagem.Postagem;
 import dev.lucas.preview.model.postagem.Reclamacao;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ public final class Cliente extends Usuario implements Idade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private UUID id;
 
     @NotNull(message = "O campo nome não pode ser nulo!")
@@ -39,13 +41,16 @@ public final class Cliente extends Usuario implements Idade {
     @Column(nullable = false)
     private LocalDate dataNascimento;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cliente")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private List<Postagem> postagens;
 
     @CreationTimestamp
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Instant criadoEm;
 
     @UpdateTimestamp
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Instant atualizadoEm;
 
     @Override

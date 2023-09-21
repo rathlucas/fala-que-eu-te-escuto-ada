@@ -2,6 +2,7 @@ package dev.lucas.preview.controller;
 
 import dev.lucas.preview.model.cadastro.Empresa;
 import dev.lucas.preview.repository.EmpresaRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Tag(name = "Empresas", description = "Consulta e manipulação de empresas")
 @RestController
 @RequestMapping("/api/v1/empresas")
 public class EmpresaController {
@@ -77,10 +79,10 @@ public class EmpresaController {
 
     @PutMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<EmpresaDTO> atualizarPorId(@PathVariable("id") int id,
+    public ResponseEntity<EmpresaDTO> atualizarPorId(@PathVariable("id") String id,
                                                   @RequestBody Empresa empresa) {
         try {
-            Optional<Empresa> usuario = empresaRepository.findById(id);
+            Optional<Empresa> usuario = empresaRepository.findById(UUID.fromString(id));
             if (usuario.isPresent()) {
                 Empresa _empresa = usuario.get();
                 _empresa.setCnpj(empresa.getCnpj());
@@ -102,9 +104,9 @@ public class EmpresaController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> removerEmpresa(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> removerEmpresa(@PathVariable("id") String id) {
         try {
-            empresaRepository.deleteById(id);
+            empresaRepository.deleteById(UUID.fromString(id));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

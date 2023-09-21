@@ -2,6 +2,7 @@ package dev.lucas.preview.controller;
 
 import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.repository.ClienteRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Tag(name = "Clientes", description = "Consulta e manipulação de clientes")
 @RestController
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
@@ -74,10 +76,10 @@ public class ClienteController {
 
     @PutMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<ClienteDTO> atualizarPorId(@PathVariable("id") int id,
+    public ResponseEntity<ClienteDTO> atualizarPorId(@PathVariable("id") String id,
                                                      @RequestBody  Cliente cliente) {
         try {
-            Optional<Cliente> usuario = clienteRepository.findById(id);
+            Optional<Cliente> usuario = clienteRepository.findById(UUID.fromString(id));
             if (usuario.isPresent()) {
                 Cliente _cliente = usuario.get();
                 _cliente.setNome(cliente.getNome());
@@ -100,9 +102,9 @@ public class ClienteController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> removerCliente(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> removerCliente(@PathVariable("id") String id) {
         try {
-            clienteRepository.deleteById(id);
+            clienteRepository.deleteById(UUID.fromString(id));
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {

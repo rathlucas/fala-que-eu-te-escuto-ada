@@ -8,6 +8,7 @@ import dev.lucas.preview.model.postagem.Reclamacao;
 import dev.lucas.preview.repository.ClienteRepository;
 import dev.lucas.preview.repository.EmpresaRepository;
 import dev.lucas.preview.repository.PostagemRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Tag(name = "Postagens", description = "Consulta e manipulação de postagens")
 @RestController
 @RequestMapping("/api/v1/postagens")
 public class PostagemController {
@@ -48,9 +50,9 @@ public class PostagemController {
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<Postagem> recuperarPostagemPorId(@PathVariable("id") int id) {
+    public ResponseEntity<Postagem> recuperarPostagemPorId(@PathVariable("id") String id) {
         try {
-            Optional<Postagem> postagem = postagemRepository.findById(id);
+            Optional<Postagem> postagem = postagemRepository.findById(UUID.fromString(id));
             return postagem.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
@@ -118,9 +120,10 @@ public class PostagemController {
 
     @PutMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<Postagem> atualizarPorId(@PathVariable("id") int id, @RequestBody Postagem postagem) {
+    public ResponseEntity<Postagem> atualizarPorId(@PathVariable("id") String id,
+                                                   @RequestBody Postagem postagem) {
         try {
-            Optional<Postagem> resultado = postagemRepository.findById(id);
+            Optional<Postagem> resultado = postagemRepository.findById(UUID.fromString(id));
             if (resultado.isPresent()) {
                 Postagem _postagem = resultado.get();
                 _postagem.setTitulo(postagem.getTitulo());
@@ -137,9 +140,9 @@ public class PostagemController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> removerPostagem(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> removerPostagem(@PathVariable("id") String id) {
         try {
-            postagemRepository.deleteById(id);
+            postagemRepository.deleteById(UUID.fromString(id));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

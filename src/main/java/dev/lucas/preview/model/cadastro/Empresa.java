@@ -1,8 +1,10 @@
 package dev.lucas.preview.model.cadastro;
 
 import dev.lucas.preview.model.postagem.Postagem;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,32 +18,40 @@ import java.util.UUID;
 @Entity
 public final class Empresa extends Usuario {
 
-    @OneToMany
-    private final List<Postagem> postagens = new ArrayList<>();
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private UUID id;
 
-    @Pattern(regexp = "(^\\d{2}.\\d{3}.\\d{3}/\\d{4}-\\d{2}$)")
+    @Pattern(regexp = "(^\\d{2}.\\d{3}.\\d{3}/\\d{4}-\\d{2}$)",
+            message = "Formato inválido de cnpj enviado!")
     @Column(nullable = false)
     private String cnpj;
 
-    @Size(min = 4, max = 50)
+    @Size(min = 4, max = 50,
+            message = "O campo nomeFantasia precisa ter no mínimo 4 caracteres!")
     @Column(nullable = false)
     private String nomeFantasia;
 
+    @NotNull(message = "O campo email é obrigatório!")
     @Email
     @Column(nullable = false)
     private String email;
 
+    @NotNull(message = "O campo area é obrigatório!")
     @Column(nullable = false)
     private String area;
 
+    @OneToMany(mappedBy = "empresa")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    private final List<Postagem> postagens = new ArrayList<>();
+
     @CreationTimestamp
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Instant criadoEm;
 
     @UpdateTimestamp
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Instant atualizadoEm;
 
     public Empresa() {
@@ -99,4 +109,5 @@ public final class Empresa extends Usuario {
     public Instant getAtualizadoEm() {
         return atualizadoEm;
     }
+
 }
