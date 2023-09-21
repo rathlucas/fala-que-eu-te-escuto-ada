@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/empresas")
 public class EmpresaController {
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     EmpresaRepository empresaRepository;
@@ -45,9 +46,9 @@ public class EmpresaController {
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<EmpresaDTO> recuperarEmpresaPorId(@PathVariable("id") int id) {
+    public ResponseEntity<EmpresaDTO> recuperarEmpresaPorId(@PathVariable("id") String id) {
         try {
-            Optional<Empresa> empresa = empresaRepository.findById(id);
+            Optional<Empresa> empresa = empresaRepository.findById(UUID.fromString(id));
             return empresa
                     .map(value -> new ResponseEntity<>(modelMapper.map(value, EmpresaDTO.class),
                             HttpStatus.OK))

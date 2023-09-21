@@ -1,2 +1,4 @@
-package dev.lucas.preview.controller;public class PostagemDTO {
+package dev.lucas.preview.controller;
+
+public class PostagemDTO {
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
@@ -46,9 +47,9 @@ public class ClienteController {
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<ClienteDTO> recuperarClientePorId(@PathVariable("id") int id) {
+    public ResponseEntity<ClienteDTO> recuperarClientePorId(@PathVariable("id") String id) {
         try {
-            Optional<Cliente> cliente = clienteRepository.findById(id);
+            Optional<Cliente> cliente = clienteRepository.findById(UUID.fromString(id));
 
             return cliente.map(value -> new ResponseEntity<>(
                     modelMapper.map(value, ClienteDTO.class), HttpStatus.OK))
