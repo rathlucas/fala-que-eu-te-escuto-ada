@@ -8,8 +8,10 @@ import dev.lucas.preview.model.postagem.Reclamacao;
 import dev.lucas.preview.repository.ClienteRepository;
 import dev.lucas.preview.repository.EmpresaRepository;
 import dev.lucas.preview.repository.PostagemRepository;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/postagens")
 public class PostagemController {
+
+    @Autowired
+    SqsTemplate sqsTemplate;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Autowired
     PostagemRepository postagemRepository;
@@ -62,7 +70,7 @@ public class PostagemController {
 
     @PostMapping(value = "/criacao/elogio/{idCliente}/{idEmpresa}")
     @ResponseBody
-    public ResponseEntity<Elogio> criarElogio(@Valid @RequestBody Elogio postagem,
+    public ResponseEntity<PostagemDTO> criarElogio(@Valid @RequestBody Elogio postagem,
                                               @PathVariable("idCliente") String idCliente,
                                               @PathVariable("idEmpresa") String idEmpresa) {
         try {
@@ -83,15 +91,21 @@ public class PostagemController {
                     empresa.get()
                     )
             );
-            return new ResponseEntity<>(_postagem, HttpStatus.CREATED);
+
+            PostagemDTO postagemDTO = modelMapper.map(_postagem, PostagemDTO.class);
+
+            sqsTemplate.send((o) -> o.queue("SQS-REVIEW-ADA.fifo")
+                    .payload(postagemDTO));
+            return new ResponseEntity<>(postagemDTO, HttpStatus.CREATED);
         } catch(Exception e) {
+            System.err.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(value = "/criacao/reclamacao/{idCliente}/{idEmpresa}")
     @ResponseBody
-    public ResponseEntity<Reclamacao> criarReclamacao(@Valid @RequestBody Reclamacao postagem,
+    public ResponseEntity<PostagemDTO> criarReclamacao(@Valid @RequestBody Reclamacao postagem,
                                                   @PathVariable("idCliente") String idCliente,
                                                   @PathVariable("idEmpresa") String idEmpresa) {
         try {
@@ -112,8 +126,14 @@ public class PostagemController {
                             empresa.get()
                     )
             );
-            return new ResponseEntity<>(_postagem, HttpStatus.CREATED);
+
+            PostagemDTO postagemDTO = modelMapper.map(_postagem, PostagemDTO.class);
+
+            sqsTemplate.send((o) -> o.queue("SQS-REVIEW-ADA.fifo")
+                    .payload(postagemDTO));
+            return new ResponseEntity<>(postagemDTO, HttpStatus.CREATED);
         } catch(Exception e) {
+            System.err.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

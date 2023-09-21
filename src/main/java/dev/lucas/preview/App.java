@@ -1,7 +1,6 @@
 package dev.lucas.preview;
 
 import dev.lucas.preview.model.cadastro.Cliente;
-import dev.lucas.preview.model.postagem.Curtida;
 import dev.lucas.preview.model.cadastro.Empresa;
 import dev.lucas.preview.model.postagem.Timeline;
 
@@ -37,19 +36,19 @@ public class App {
             System.out.println(postagem);
         }
 
-        var elogio1 = cliente.criarElogio("Gostei!",
-                "Foram muito atenciosos", cliente, empresa);
-        elogio1.setCurtidas(new Curtida());
+//        var elogio1 = cliente.criarElogio("Gostei!",
+//                "Foram muito atenciosos", cliente, empresa);
+//        elogio1.setCurtidas(new Curtida());
+//
+//        timeline.adicionarPostagem(elogio1);
+//
+//        var elogio2 = cliente.criarElogio("Daora o atendimento!",
+//                "Foram muito bacanas", cliente, empresa);
+//        elogio2.setCurtidas(new Curtida(elogio2, "Top!"));
+//        elogio2.setCurtidas(new Curtida());
+//        elogio2.setCurtidas(new Curtida());
 
-        timeline.adicionarPostagem(elogio1);
-
-        var elogio2 = cliente.criarElogio("Daora o atendimento!",
-                "Foram muito bacanas", cliente, empresa);
-        elogio2.setCurtidas(new Curtida(elogio2, "Top!"));
-        elogio2.setCurtidas(new Curtida());
-        elogio2.setCurtidas(new Curtida());
-
-        timeline.adicionarPostagem(elogio2);
+//        timeline.adicionarPostagem(elogio2);
 
         var elogio3 = cliente.criarElogio("Otimo atendimento!",
                 "Foram muito atenciosos", cliente, empresa);

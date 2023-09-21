@@ -3,6 +3,8 @@ package dev.lucas.preview.model.postagem;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.model.cadastro.Empresa;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -56,7 +58,7 @@ public abstract class Postagem implements Comparable<Postagem> {
     @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "postagem")
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    private final List<Curtida> curtidas = new ArrayList<>();
+    private List<Curtida> curtidas = new ArrayList<>();
 
     @CreationTimestamp
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
@@ -96,10 +98,12 @@ public abstract class Postagem implements Comparable<Postagem> {
         return cliente;
     }
 
+    @JsonSerialize(using = LocalDateSerializer.class)
     public Instant getCriadoEm() {
         return criadoEm;
     }
 
+    @JsonSerialize(using = LocalDateSerializer.class)
     public Instant getAtualizadoEm() {
         return atualizadoEm;
     }
@@ -108,9 +112,8 @@ public abstract class Postagem implements Comparable<Postagem> {
         return curtidas;
     }
 
-    public void setCurtidas(Curtida curtida) {
-        curtidas.add(curtida);
-        System.out.println("Curtida adicionada com sucesso!");
+    public void setCurtidas(List<Curtida> curtidas) {
+        this.curtidas = curtidas;
     }
 
     public void setTitulo(String titulo) {

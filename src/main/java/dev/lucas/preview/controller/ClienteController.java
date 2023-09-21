@@ -2,6 +2,7 @@ package dev.lucas.preview.controller;
 
 import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.repository.ClienteRepository;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -20,10 +21,15 @@ import java.util.UUID;
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
 
-    private static final ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
-    ClienteRepository clienteRepository;
+    private SqsTemplate sqsTemplate;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> recuperarClientes() {
@@ -68,8 +74,13 @@ public class ClienteController {
             Cliente _cliente = clienteRepository.save(new Cliente(cliente.getNome(),
                     cliente.getEmail(), cliente.getDataNascimento()));
 
-            return new ResponseEntity<>(modelMapper.map(_cliente, ClienteDTO.class), HttpStatus.CREATED);
+            ClienteDTO clienteDTO = modelMapper.map(_cliente, ClienteDTO.class);
+
+            sqsTemplate.send((o) -> o.queue("SQS-REVIEW-ADA.fifo")
+                    .payload(clienteDTO));
+            return new ResponseEntity<>(clienteDTO, HttpStatus.CREATED);
         } catch(Exception e) {
+            System.err.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

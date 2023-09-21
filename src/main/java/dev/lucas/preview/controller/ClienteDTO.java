@@ -1,5 +1,6 @@
 package dev.lucas.preview.controller;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ public class ClienteDTO {
     private String nome;
     private String email;
     private LocalDate dataNascimento;
-    private String criadoEm;
+    private Instant criadoEm;
 
     public ClienteDTO() {
     }
@@ -46,11 +47,11 @@ public class ClienteDTO {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getCriadoEm() {
+    public Instant getCriadoEm() {
         return criadoEm;
     }
 
-    public void setCriadoEm(String criadoEm) {
+    public void setCriadoEm(Instant criadoEm) {
         this.criadoEm = criadoEm;
     }
 }

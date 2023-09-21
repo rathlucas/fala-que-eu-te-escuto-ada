@@ -73,7 +73,7 @@ public class CurtidaController {
             Postagem _postagem = postagem.get();
             Curtida curtida = new Curtida(_postagem, mensagem);
 
-            _postagem.setCurtidas(curtida);
+            _postagem.setCurtidas(List.of(curtida));
             curtidaRepository.save(curtida);
             postagemRepository.save(_postagem);
 
