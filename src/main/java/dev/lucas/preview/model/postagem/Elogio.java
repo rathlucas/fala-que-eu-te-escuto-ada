@@ -5,7 +5,7 @@ import dev.lucas.preview.model.cadastro.Empresa;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Elogio extends Postagem implements Comparable<Postagem>{
+public final class Elogio extends Postagem implements Comparable<Postagem>{
 
     public Elogio() {}
 

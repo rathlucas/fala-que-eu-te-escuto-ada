@@ -1,8 +1,11 @@
 package dev.lucas.preview.model.postagem;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 public class Curtida {
@@ -11,26 +14,46 @@ public class Curtida {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Size(min = 3, max = 500)
     @Column(nullable = true)
     private String comentario;
 
-    @Column(nullable = false)
-    private final LocalDateTime criadoEm;
+    @CreationTimestamp
+    private Instant criadoEm;
+
+    @UpdateTimestamp
+    private Instant atualizadoEm;
 
     public Curtida() {
-        this.criadoEm = LocalDateTime.now();
     }
 
     public Curtida(String comentario) {
         this.comentario = comentario;
-        this.criadoEm = LocalDateTime.now();
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public Instant getCriadoEm() {
+        return criadoEm;
+    }
+
+    public Instant getAtualizadoEm() {
+        return atualizadoEm;
     }
 
     @Override
     public String toString() {
         return "Curtida{" +
-                "comentario='" + comentario + '\'' +
+                "id=" + id +
+                ", comentario='" + comentario + '\'' +
                 ", criadoEm=" + criadoEm +
+                ", atualizadoEm=" + atualizadoEm +
                 '}';
     }
 }
