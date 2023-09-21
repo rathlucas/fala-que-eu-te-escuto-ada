@@ -64,7 +64,8 @@ public class EmpresaController {
         try {
             Empresa _empresa = empresaRepository.save(new Empresa(
                     empresa.getCnpj(),
-                    empresa.getNomeFantasia()));
+                    empresa.getNomeFantasia(),
+                    empresa.getEmail(), empresa.getArea()));
 
             EmpresaDTO empresaDTO = modelMapper.map(_empresa, EmpresaDTO.class);
 
@@ -77,13 +78,15 @@ public class EmpresaController {
     @PutMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<EmpresaDTO> atualizarPorId(@PathVariable("id") int id,
-                                                  @RequestBody  Empresa empresa) {
+                                                  @RequestBody Empresa empresa) {
         try {
             Optional<Empresa> usuario = empresaRepository.findById(id);
             if (usuario.isPresent()) {
                 Empresa _empresa = usuario.get();
                 _empresa.setCnpj(empresa.getCnpj());
                 _empresa.setNomeFantasia(empresa.getNomeFantasia());
+                _empresa.setEmail(empresa.getEmail());
+                _empresa.setArea(empresa.getArea());
                 empresaRepository.save(_empresa);
 
                 EmpresaDTO empresaDTO = modelMapper.map(_empresa, EmpresaDTO.class);

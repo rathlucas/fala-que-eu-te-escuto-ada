@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/postagens")
@@ -60,15 +61,15 @@ public class PostagemController {
     @PostMapping(value = "/criacao/elogio/{idCliente}/{idEmpresa}")
     @ResponseBody
     public ResponseEntity<Elogio> criarElogio(@Valid @RequestBody Elogio postagem,
-                                              @PathVariable("idCliente") int idCliente,
-                                              @PathVariable("idEmpresa") int idEmpresa) {
+                                              @PathVariable("idCliente") String idCliente,
+                                              @PathVariable("idEmpresa") String idEmpresa) {
         try {
-            Optional<Cliente> cliente = clienteRepository.findById(idCliente);
+            Optional<Cliente> cliente = clienteRepository.findById(UUID.fromString(idCliente));
             if (cliente.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            Optional<Empresa> empresa = empresaRepository.findById(idEmpresa);
+            Optional<Empresa> empresa = empresaRepository.findById(UUID.fromString(idEmpresa));
             if (empresa.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -82,7 +83,6 @@ public class PostagemController {
             );
             return new ResponseEntity<>(_postagem, HttpStatus.CREATED);
         } catch(Exception e) {
-            System.err.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -90,15 +90,15 @@ public class PostagemController {
     @PostMapping(value = "/criacao/reclamacao/{idCliente}/{idEmpresa}")
     @ResponseBody
     public ResponseEntity<Reclamacao> criarReclamacao(@Valid @RequestBody Reclamacao postagem,
-                                                  @PathVariable("idCliente") int idCliente,
-                                                  @PathVariable("idEmpresa") int idEmpresa) {
+                                                  @PathVariable("idCliente") String idCliente,
+                                                  @PathVariable("idEmpresa") String idEmpresa) {
         try {
-            Optional<Cliente> cliente = clienteRepository.findById(idCliente);
+            Optional<Cliente> cliente = clienteRepository.findById(UUID.fromString(idCliente));
             if (cliente.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            Optional<Empresa> empresa = empresaRepository.findById(idEmpresa);
+            Optional<Empresa> empresa = empresaRepository.findById(UUID.fromString(idEmpresa));
             if (empresa.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

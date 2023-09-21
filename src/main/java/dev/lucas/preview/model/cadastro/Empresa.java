@@ -35,7 +35,7 @@ public final class Empresa extends Usuario {
     @Column(nullable = false)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String area;
 
     @CreationTimestamp
@@ -47,9 +47,11 @@ public final class Empresa extends Usuario {
     public Empresa() {
     }
 
-    public Empresa(String cnpj, String nomeFantasia) {
+    public Empresa(String cnpj, String nomeFantasia, String email, String area) {
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
+        this.email = email;
+        this.area = area;
     }
 
     public UUID getId() {
@@ -82,6 +84,12 @@ public final class Empresa extends Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getArea() {return area;}
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public Instant getCriadoEm() {
