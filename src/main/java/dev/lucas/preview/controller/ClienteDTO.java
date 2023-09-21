@@ -1,26 +1,55 @@
 package dev.lucas.preview.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.TimeZone;
 
 public class ClienteDTO {
 
-    private static final SimpleDateFormat formatadorDeData
-            = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
+    private long id;
     private String nome;
     private String email;
     private LocalDate dataNascimento;
     private String criadoEm;
 
-    public java.util.Date getCriadoEmConvertido(String timezone) throws java.text.ParseException {
-        formatadorDeData.setTimeZone(TimeZone.getTimeZone(timezone));
-        return formatadorDeData.parse(this.criadoEm);
+    public ClienteDTO() {
     }
 
-    public void setCriadoEm(java.util.Date criadoEm, String timezone) {
-        formatadorDeData.setTimeZone(TimeZone.getTimeZone(timezone));
-        this.criadoEm = formatadorDeData.format(criadoEm);
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getCriadoEm() {
+        return criadoEm;
+    }
+
+    public void setCriadoEm(String criadoEm) {
+        this.criadoEm = criadoEm;
     }
 }
