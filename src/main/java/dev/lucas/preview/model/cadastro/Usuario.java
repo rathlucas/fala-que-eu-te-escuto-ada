@@ -1,5 +1,8 @@
 package dev.lucas.preview.model.cadastro;
 
-public abstract class Usuario {
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public sealed abstract class Usuario permits Empresa, Cliente {
 
 }
