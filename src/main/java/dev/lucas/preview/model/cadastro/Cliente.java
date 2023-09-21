@@ -10,7 +10,6 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -18,12 +17,11 @@ import java.time.Period;
 import java.util.List;
 
 @Entity
-@Component
 public final class Cliente extends Usuario implements Idade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private long id;
 
     @NotNull(message = "O campo nome não pode ser nulo!")
     @Size(min = 3, max = 40, message = "O nome precisa estar entre 3 e 40 caracteres!")
@@ -61,6 +59,10 @@ public final class Cliente extends Usuario implements Idade {
         this.nome = nome;
         this.email = email;
         this.dataNascimento = dataNascimento;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getNome() {
