@@ -1,67 +1,42 @@
 package dev.lucas.preview.controller;
 
 import dev.lucas.preview.model.cadastro.Cliente;
-import dev.lucas.preview.repository.ClienteRepository;
-import io.awspring.cloud.sqs.operations.SqsTemplate;
+import dev.lucas.preview.service.ClienteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Tag(name = "Clientes", description = "Consulta e manipulação de clientes")
 @RestController
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ClienteService clienteService;
 
-    @Autowired
-    private SqsTemplate sqsTemplate;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
-
+    public ClienteController(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> recuperarClientes() {
-        try {
-            List<Cliente> clientes = new ArrayList<>(clienteRepository.findAll());
-            if (clientes.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            List<ClienteDTO> clientesDTO = new ArrayList<>();
-
-            for (var cliente : clientes) {
-                ClienteDTO clienteDTO = modelMapper.map(cliente, ClienteDTO.class);
-                clientesDTO.add(clienteDTO);
-            }
-
-            return new ResponseEntity<>(clientesDTO, HttpStatus.OK);
-        } catch (Exception e) {
-            System.err.println(e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            var resposta = clienteService.recuperarTodos();
+            return new ResponseEntity<>(resposta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<ClienteDTO> recuperarClientePorId(@PathVariable("id") String id) {
         try {
-            Optional<Cliente> cliente = clienteRepository.findById(UUID.fromString(id));
+            ClienteDTO cliente = clienteService.recuperarUm(id);
+            if (cliente == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-            return cliente.map(value -> new ResponseEntity<>(
-                    modelMapper.map(value, ClienteDTO.class), HttpStatus.OK))
-                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+            return new ResponseEntity<>(cliente, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -71,16 +46,9 @@ public class ClienteController {
     @ResponseBody
     public ResponseEntity<ClienteDTO> cadastrarCliente(@Valid @RequestBody Cliente cliente) {
         try {
-            Cliente _cliente = clienteRepository.save(new Cliente(cliente.getNome(),
-                    cliente.getEmail(), cliente.getDataNascimento()));
-
-            ClienteDTO clienteDTO = modelMapper.map(_cliente, ClienteDTO.class);
-
-            sqsTemplate.send((o) -> o.queue("SQS-REVIEW-ADA.fifo")
-                    .payload(clienteDTO));
-            return new ResponseEntity<>(clienteDTO, HttpStatus.CREATED);
-        } catch(Exception e) {
-            System.err.println(e);
+            ClienteDTO _cliente = clienteService.criar(cliente);
+            return new ResponseEntity<>(_cliente, HttpStatus.CREATED);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -88,25 +56,14 @@ public class ClienteController {
     @PutMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<ClienteDTO> atualizarPorId(@PathVariable("id") String id,
-                                                     @RequestBody  Cliente cliente) {
+                                                     @RequestBody Cliente payload) {
         try {
-            Optional<Cliente> usuario = clienteRepository.findById(UUID.fromString(id));
-            if (usuario.isPresent()) {
-                Cliente _cliente = usuario.get();
-                _cliente.setNome(cliente.getNome());
-                _cliente.setEmail(cliente.getEmail());
-                _cliente.setDataNascimento(cliente.getDataNascimento() != null
-                        ? cliente.getDataNascimento()
-                        : _cliente.getDataNascimento());
-
-                clienteRepository.save(_cliente);
-                ClienteDTO clienteDTO = modelMapper.map(_cliente, ClienteDTO.class);
-
-                return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-            } else {
+            ClienteDTO clienteDTO = clienteService.atualizar(id, payload);
+            if (clienteDTO == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
+            return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -115,8 +72,7 @@ public class ClienteController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<HttpStatus> removerCliente(@PathVariable("id") String id) {
         try {
-            clienteRepository.deleteById(UUID.fromString(id));
-
+            clienteService.remover(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

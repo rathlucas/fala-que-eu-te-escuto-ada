@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-public final class Cliente extends Usuario implements Idade {
+public final class Cliente extends Usuario implements Idade, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
