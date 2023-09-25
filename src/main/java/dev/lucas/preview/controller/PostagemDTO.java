@@ -7,6 +7,7 @@ public class PostagemDTO {
     private String id;
     private String titulo;
     private String mensagem;
+    private ClienteDTO cliente;
     private Instant criadoEm;
     private Instant atualizadoEm;
 
@@ -32,6 +33,14 @@ public class PostagemDTO {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public ClienteDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
     }
 
     public Instant getCriadoEm() {

@@ -1,5 +1,7 @@
 package dev.lucas.preview.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.lucas.preview.model.cadastro.Cliente;
 import dev.lucas.preview.model.cadastro.Empresa;
 import dev.lucas.preview.model.postagem.Elogio;
@@ -32,6 +34,9 @@ public class PostagemController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     PostagemRepository postagemRepository;
@@ -94,8 +99,15 @@ public class PostagemController {
 
             PostagemDTO postagemDTO = modelMapper.map(_postagem, PostagemDTO.class);
 
-            sqsTemplate.send((o) -> o.queue("SQS-REVIEW-ADA.fifo")
-                    .payload(postagemDTO));
+            sqsTemplate.send((o) -> {
+                try {
+                    o.queue("SQS-REVIEW-ADA.fifo")
+                            .payload(objectMapper.writeValueAsString(postagemDTO));
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
             return new ResponseEntity<>(postagemDTO, HttpStatus.CREATED);
         } catch(Exception e) {
             System.err.println(e);
@@ -129,8 +141,15 @@ public class PostagemController {
 
             PostagemDTO postagemDTO = modelMapper.map(_postagem, PostagemDTO.class);
 
-            sqsTemplate.send((o) -> o.queue("SQS-REVIEW-ADA.fifo")
-                    .payload(postagemDTO));
+            sqsTemplate.send((o) -> {
+                try {
+                    o.queue("SQS-REVIEW-ADA.fifo")
+                            .payload(objectMapper.writeValueAsString(postagemDTO));
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
             return new ResponseEntity<>(postagemDTO, HttpStatus.CREATED);
         } catch(Exception e) {
             System.err.println(e);

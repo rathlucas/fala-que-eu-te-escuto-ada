@@ -1,4 +1,4 @@
-package test.java.dev.lucas.preview;
+package dev.lucas.preview;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
