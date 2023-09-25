@@ -1,6 +1,7 @@
 package dev.lucas.preview;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.lucas.preview.service.NotificationService;
 import io.awspring.cloud.sns.core.SnsTemplate;
 import io.awspring.cloud.sqs.annotation.SqsListener;
@@ -19,8 +20,11 @@ public class PreviewApplication {
     final
     SnsTemplate snsTemplate;
 
-    public PreviewApplication(SnsTemplate snsTemplate) {
+    final ObjectMapper objectMapper;
+
+    public PreviewApplication(SnsTemplate snsTemplate, ObjectMapper objectMapper) {
         this.snsTemplate = snsTemplate;
+        this.objectMapper = objectMapper;
     }
 
     public static void main(String[] args) {
@@ -38,7 +42,7 @@ public class PreviewApplication {
     public void listen(String message) throws JsonProcessingException {
         System.out.println("Mensagem recebida, encaminhando ao sistema de notificações...");
 
-        NotificationService notificationService = new NotificationService(snsTemplate);
+        NotificationService notificationService = new NotificationService(snsTemplate, objectMapper);
         notificationService.enviarNotificacaoDePostagem(message);
     }
 
