@@ -23,8 +23,9 @@ public class ClienteController {
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> recuperarClientes() {
-            var resposta = clienteService.recuperarTodos();
-            return new ResponseEntity<>(resposta, HttpStatus.OK);
+        System.out.println("Xesque");
+        var resposta = clienteService.recuperarTodos();
+        return new ResponseEntity<>(resposta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
